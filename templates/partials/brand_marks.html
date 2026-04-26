@@ -1,0 +1,52 @@
+{% comment %}
+  mode: "nav" (navbar) or "footer"
+{% endcomment %}
+{% if site.logo %}
+<a
+  href="{% url 'home' %}"
+  class="{% if mode == 'nav' %}flex items-center min-w-0 flex-shrink-0{% else %}inline-flex items-center mb-4{% endif %}"
+>
+  <img
+    src="{{ site.logo.url }}"
+    alt="{{ site.company_name }}"
+    class="{% if mode == 'nav' %}h-9 w-auto max-h-9 max-w-[220px] object-contain object-left md:max-w-[240px]{% else %}h-10 sm:h-11 w-auto max-w-[260px] object-contain object-left{% endif %}"
+    width="240"
+    height="40"
+    loading="eager"
+    decoding="async"
+  />
+</a>
+{% else %}
+<a href="{% url 'home' %}" class="{% if mode == 'nav' %}flex items-center gap-2.5 min-w-0{% else %}flex items-center gap-2.5 mb-4{% endif %}">
+  <div
+    class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+    style="background: linear-gradient(135deg, #059669, #10b981)"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    >
+      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+      <path d="M2 17l10 5 10-5" />
+      <path d="M2 12l10 5 10-5" />
+    </svg>
+  </div>
+  <div class="leading-tight min-w-0">
+    <span
+      class="font-poppins {% if mode == 'nav' %}font-800 text-white text-base tracking-tight{% else %}font-700 text-white text-base{% endif %} block truncate"
+      >{{ site.company_name|truncatechars:32 }}</span
+    >
+    {% if site.company_name_suffix %}
+    <span
+      class="text-emerald-400 text-xs font-400 block -mt-0.5"
+      >{{ site.company_name_suffix }}</span
+    >
+    {% endif %}
+  </div>
+</a>
+{% endif %}

@@ -1,0 +1,21 @@
+{% if request %}
+  {% if site.og_image %}
+    <meta
+      property="og:image"
+      content="{{ request.scheme }}://{{ request.get_host }}{{ site.og_image.url }}"
+    />
+    <meta
+      name="twitter:image"
+      content="{{ request.scheme }}://{{ request.get_host }}{{ site.og_image.url }}"
+    />
+  {% elif site.logo %}
+    <meta
+      property="og:image"
+      content="{{ request.scheme }}://{{ request.get_host }}{{ site.logo.url }}"
+    />
+    <meta
+      name="twitter:image"
+      content="{{ request.scheme }}://{{ request.get_host }}{{ site.logo.url }}"
+    />
+  {% endif %}
+{% endif %}

@@ -1,0 +1,11 @@
+Dear {{ inquiry.name }},
+
+Thank you for contacting {{ company }}. We have received your message and our team will get back to you soon.
+
+{% if inquiry.service %}Service you selected: {{ inquiry.service }}{% endif %}
+
+If you need to reach us directly:
+Phone: {{ inquiry.phone }}
+{% if inbox %}Email: {{ inbox }}{% endif %}
+
+— {{ company }}

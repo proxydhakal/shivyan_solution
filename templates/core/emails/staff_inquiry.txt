@@ -1,0 +1,14 @@
+New website contact — {{ company }}
+
+Inquiry ID: #{{ inquiry.pk }}
+Received: {{ received|default:"—" }}
+
+Name: {{ inquiry.name }}
+Phone: {{ inquiry.phone }}
+Email: {{ inquiry.email|default:"—" }}
+Service: {{ inquiry.service|default:"—" }}
+
+Message:
+{{ inquiry.message|default:"—" }}
+
+IP: {{ inquiry.ip_address|default:"—" }}

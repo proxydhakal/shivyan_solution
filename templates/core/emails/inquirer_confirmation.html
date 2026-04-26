@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: system-ui, sans-serif; line-height: 1.55; color: #0f172a; max-width: 560px;">
+  <p>Dear {{ inquiry.name }},</p>
+  <p>Thank you for contacting <strong>{{ company }}</strong>. We have received your message and our team will get back to you soon.</p>
+  {% if inquiry.service %}
+  <p><strong>Service:</strong> {{ inquiry.service }}</p>
+  {% endif %}
+  <p style="margin-top: 1.5rem; font-size: 14px; color: #475569;">
+    If you need to reach us directly:<br>
+    Phone: {{ inquiry.phone }}<br>
+    {% if inbox %}Email: <a href="mailto:{{ inbox }}">{{ inbox }}</a>{% endif %}
+  </p>
+  <p style="margin-top: 2rem; color: #1122b8;"><strong>{{ company }}</strong></p>
+</body>
+</html>

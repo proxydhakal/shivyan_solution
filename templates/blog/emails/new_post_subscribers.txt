@@ -1,0 +1,18 @@
+{{ company }} — New article
+================================================================================
+
+"{{ post.title }}"
+
+{% if post.excerpt %}{{ post.excerpt|striptags|truncatewords:40 }}
+
+{% endif %}Read it here:
+  {{ post_url }}
+
+--------------------------------------------------------------------------------
+You’re subscribed to new blog updates from {{ company }}.
+
+Unsubscribe (one link, no sign-in):
+  {{ unsub_url }}
+
+All posts: {{ post_list_url }}
+--------------------------------------------------------------------------------

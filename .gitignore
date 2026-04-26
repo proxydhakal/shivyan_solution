@@ -1,0 +1,53 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+.env.*.local
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Django
+staticfiles/
+media/
+*.log
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+
+# Node (Tailwind)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Cursor (optional; uncomment if you don’t want local settings in repo)
+# .cursor/

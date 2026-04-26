@@ -1,0 +1,20 @@
+You’re subscribed — {{ company }} blog
+================================================================================
+
+Hi{% if subscriber.name %}, {{ subscriber.name }}{% else %} there{% endif %},
+
+We’ll email you when we publish a new post on the blog (tax, business, and
+compliance updates).
+
+Browse all articles:
+  {{ post_list_url }}
+
+This message was sent to: {{ subscriber.email }}
+
+--------------------------------------------------------------------------------
+Unsubscribe anytime (one link):
+  {{ unsub_url }}
+
+{{ company }}{% if base_url %}
+{{ base_url }}{% endif %}
+================================================================================

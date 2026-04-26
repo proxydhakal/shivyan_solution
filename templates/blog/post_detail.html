@@ -1,0 +1,109 @@
+{% extends "base_public.html" %}
+{% load humanize %}
+{% block title %}{{ post.title }} — {{ site.company_name }}{% endblock %}
+{% block meta_desc %}{{ post.excerpt|default:post.content|striptags|truncatewords:30 }}{% endblock %}
+{% block og_title %}{{ post.title }} — {{ site.company_name }}{% endblock %}
+{% block og_desc %}{{ post.excerpt|default:post.content|striptags|truncatewords:40 }}{% endblock %}
+{% block tw_title %}{{ post.title }} — {{ site.company_name }}{% endblock %}
+{% block tw_desc %}{{ post.excerpt|default:post.content|striptags|truncatewords:40 }}{% endblock %}
+{% block social_share_image %}
+  <meta property="og:type" content="article" />
+  {% if post.cover and request %}
+    <meta
+      property="og:image"
+      content="{{ request.scheme }}://{{ request.get_host }}{{ post.cover.url }}"
+    />
+    <meta
+      name="twitter:image"
+      content="{{ request.scheme }}://{{ request.get_host }}{{ post.cover.url }}"
+    />
+  {% else %}
+    {% include "partials/og_image_default.html" %}
+  {% endif %}
+{% endblock %}
+{% block content %}
+<article class="max-w-3xl mx-auto px-4 py-8 sm:px-6">
+  <p class="text-xs text-blue-600 font-600 mb-1">
+    <a href="{% url 'blog:post_list' %}">Blog</a>
+    {% if post.category %} &nbsp;/&nbsp; <a href="{% url 'blog:post_list' %}?category={{ post.category.slug }}">{{ post.category.name }}</a>{% endif %}
+  </p>
+  <h1 class="text-2xl sm:text-3xl font-800 text-navy-950 mb-3">{{ post.title }}</h1>
+  <p class="text-sm text-slate-500 mb-6">
+    {{ post.published_at|date:"F j, Y" }}
+    {% if post.author %} &middot; {{ post.author.get_full_name|default:post.author.username }}{% endif %}
+    <span class="ml-2 text-slate-400">· {{ post.view_count }} views</span>
+  </p>
+  {% if post.cover %}
+  <img src="{{ post.cover.url }}" alt="" class="w-full max-h-80 object-cover rounded-2xl mb-8" />
+  {% endif %}
+  <div class="prose-ck text-slate-700 leading-relaxed">{{ post.content|safe }}</div>
+
+  {% if post.tags.all %}
+  <div class="mt-8 flex flex-wrap gap-2">
+    {% for t in post.tags.all %}
+    <a href="{% url 'blog:post_list' %}?tag={{ t.slug }}" class="text-xs px-2 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-100">{{ t.name }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <section id="rating" class="mt-12 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm">
+    <h2 class="font-700 text-navy-950 mb-2">Rating</h2>
+    {% if rating_stats.count %}
+    <p class="text-slate-600 text-sm">Average: <strong>{{ rating_stats.average|default:0 }}</strong> / 5 ({{ rating_stats.count }} vote{{ rating_stats.count|pluralize }})</p>
+    {% else %}
+    <p class="text-slate-500 text-sm">No ratings yet. Be the first.</p>
+    {% endif %}
+    {% if post.allow_rating %}
+      {% if has_rated %}
+      <p class="text-sm text-slate-500 mt-2">You have already rated this post.</p>
+      {% else %}
+      <form method="post" class="mt-4 space-y-3">{% csrf_token %}
+        <input type="hidden" name="form_type" value="rating" />
+        <div class="flex flex-wrap items-end gap-3">
+          <div>
+            <span class="text-sm text-slate-600 mr-2">1–5 stars</span>
+            {{ rating_form.value }}
+          </div>
+          <button type="submit" class="rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-700 px-4 py-2">Submit</button>
+        </div>
+      </form>
+      {% endif %}
+    {% endif %}
+  </section>
+
+  <section id="comments" class="mt-12">
+    <h2 class="font-700 text-navy-950 mb-4">Comments ({{ comments|length }})</h2>
+    <ul class="space-y-4 mb-8">
+      {% for c in comments %}
+      <li class="p-4 rounded-xl bg-white border border-slate-100 text-sm">
+        <p class="font-600 text-navy-900">{{ c.name }} <span class="text-slate-400 font-400">· {{ c.created_at|naturaltime }}</span></p>
+        <p class="text-slate-600 mt-2 whitespace-pre-line">{{ c.body }}</p>
+      </li>
+      {% empty %}
+      <li class="text-slate-500 text-sm">No comments yet.</li>
+      {% endfor %}
+    </ul>
+
+    {% if post.allow_comments %}
+    <div class="p-5 rounded-2xl bg-slate-100/80 border border-slate-200">
+      <h3 class="font-600 text-navy-950 text-sm mb-3">Add a comment</h3>
+      <form method="post" class="space-y-3" novalidate>{% csrf_token %}
+        <input type="hidden" name="form_type" value="comment" />
+        {% if comment_form.non_field_errors %}
+        <div class="text-red-600 text-sm" role="alert">{{ comment_form.non_field_errors }}</div>
+        {% endif %}
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div>{{ comment_form.name.label_tag }}{{ comment_form.name }}{{ comment_form.name.errors }}</div>
+          <div>{{ comment_form.email.label_tag }}{{ comment_form.email }}{{ comment_form.email.errors }}</div>
+        </div>
+        <div>{{ comment_form.body.label_tag }}{{ comment_form.body }}{{ comment_form.body.errors }}</div>
+        <div class="hidden">{{ comment_form.website }}</div>
+        <button type="submit" class="rounded-lg text-sm font-700 text-white px-5 py-2.5" style="background:#1122b8">Post comment</button>
+      </form>
+    </div>
+    {% else %}
+    <p class="text-slate-500 text-sm">Comments are closed for this post.</p>
+    {% endif %}
+  </section>
+</article>
+{% endblock %}

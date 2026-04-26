@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome — {{ company }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f1f5f9;font-family:system-ui,-apple-system,Segoe UI,Roboto,Poppins,Helvetica,Arial,sans-serif;">
+  <span style="display:none!important;visibility:hidden;opacity:0;">You’re on the list for new articles from {{ company }}.</span>
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#f1f5f9;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+          <tr>
+            <td style="padding:28px 32px 20px 32px;border-bottom:3px solid #f59e0b;">
+              <p style="margin:0 0 4px 0;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#64748b;">{{ company }}</p>
+              <h1 style="margin:0;font-size:24px;font-weight:800;color:#0f172a;">You’re subscribed</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 32px 8px 32px;">
+              <p style="margin:0 0 12px 0;font-size:16px;color:#0f172a;">Hi{% if subscriber.name %}, <strong>{{ subscriber.name|escape }}</strong>{% else %} there{% endif %},</p>
+              <p style="margin:0 0 16px 0;font-size:15px;color:#475569;line-height:1.6;">We’ll email you when we publish a new post on the blog—tax, business, and compliance updates from our team.</p>
+              <a href="{{ post_list_url }}" style="display:inline-block;background:linear-gradient(135deg,#1122b8,#1d4ed8);color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 24px;border-radius:10px;">Browse the blog</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 32px 28px 32px;">
+              <p style="margin:0;font-size:13px;color:#94a3b8;">This message was sent to <span style="color:#475569;">{{ subscriber.email|escape }}</span></p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px 32px;border-top:1px solid #e2e8f0;background:#f8fafc;">
+              <p style="margin:0 0 8px 0;font-size:13px;color:#64748b;">Don’t want these emails? You can leave the list any time—no sign-in required.</p>
+              <p style="margin:0;font-size:12px;">
+                <a href="{{ unsub_url }}" style="color:#1122b8;">Unsubscribe</a>
+                <span style="color:#94a3b8;"> &middot; </span>
+                <a href="{{ post_list_url }}" style="color:#64748b;">Blog home</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+        <p style="margin:20px 0 0 0;font-size:11px;color:#94a3b8;max-width:600px;">{{ company }}{% if base_url %} · {{ base_url }}{% endif %}</p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

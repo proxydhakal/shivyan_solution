@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: system-ui, sans-serif; line-height: 1.5; color: #0f172a;">
+  <h2 style="color: #1122b8;">New website contact — {{ company }}</h2>
+  <p><strong>Inquiry ID:</strong> #{{ inquiry.pk }}<br>
+  <strong>Received:</strong> {{ received|default:"—" }}</p>
+  <table cellpadding="8" style="border-collapse: collapse; max-width: 560px;">
+    <tr><td><strong>Name</strong></td><td>{{ inquiry.name }}</td></tr>
+    <tr><td><strong>Phone</strong></td><td>{{ inquiry.phone }}</td></tr>
+    <tr><td><strong>Email</strong></td><td>{{ inquiry.email|default:"—" }}</td></tr>
+    <tr><td><strong>Service</strong></td><td>{{ inquiry.service|default:"—" }}</td></tr>
+  </table>
+  <p><strong>Message</strong></p>
+  <p style="white-space: pre-wrap; background: #f8fafc; padding: 12px; border-radius: 8px;">{{ inquiry.message|default:"—" }}</p>
+  <p style="font-size: 12px; color: #64748b;">IP: {{ inquiry.ip_address|default:"—" }}</p>
+</body>
+</html>

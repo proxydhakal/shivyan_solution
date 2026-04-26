@@ -1,0 +1,101 @@
+<footer style="background:#020617" class="pt-14 pb-8">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+      <div class="lg:col-span-1">
+        {% include "partials/brand_marks.html" with mode="footer" %}
+        <p class="nep text-slate-400 text-sm leading-relaxed mb-5">{{ site.tagline }}</p>
+        <div class="space-y-2">
+          <a href="tel:{{ site.phone }}" class="flex items-center gap-2 text-emerald-400 text-sm font-600">📞 {{ site.phone }}</a>
+          <a href="mailto:{{ site.email }}" class="flex items-center gap-2 text-yellow-400 text-xs break-all">✉ {{ site.email }}</a>
+        </div>
+        {% if site.has_social_links %}
+        <div class="mt-5">
+          <p class="text-slate-500 text-xs font-600 uppercase tracking-wider mb-2">Connect</p>
+          <div class="flex flex-wrap gap-2">
+            {% if site.facebook_url %}
+            <a href="{{ site.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-yellow-500 transition-colors text-slate-300 hover:text-navy-950 text-xs font-700" title="Facebook">f</a>
+            {% endif %}
+            {% if site.linkedin_url %}
+            <a href="{{ site.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-yellow-500 transition-colors text-slate-300 hover:text-navy-950 text-xs font-700" title="LinkedIn">in</a>
+            {% endif %}
+            {% if site.instagram_url %}
+            <a href="{{ site.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-yellow-500 transition-colors text-slate-300 hover:text-navy-950 text-xs font-700" title="Instagram">ig</a>
+            {% endif %}
+            {% if site.twitter_url %}
+            <a href="{{ site.twitter_url }}" target="_blank" rel="noopener noreferrer" aria-label="X" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-yellow-500 transition-colors text-slate-200 hover:text-navy-950 text-[11px] font-800" title="X">X</a>
+            {% endif %}
+            {% if site.youtube_url %}
+            <a href="{{ site.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-yellow-500 transition-colors text-slate-300 hover:text-navy-950 text-[10px] font-800" title="YouTube">▶</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="mt-8 pt-6 border-t border-white/10" id="newsletter-footer">
+          <h4 class="text-white font-600 text-sm mb-2">Newsletter</h4>
+          <p class="text-slate-500 text-xs mb-3">Get an email when we publish a new blog post.</p>
+          <form method="post" action="{% url 'blog:newsletter_subscribe' %}" class="space-y-2" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" />
+            <div>
+              <input type="email" name="email" value="{{ newsletter_prefill.email|default:'' }}" required placeholder="you@email.com" autocomplete="email" maxlength="254" class="w-full rounded-lg border {% if newsletter_form_errors.email %}border-red-500/60{% else %}border-white/15{% endif %} bg-white/5 px-3 py-2 text-sm text-white placeholder-slate-500" />
+              {% if newsletter_form_errors.email %}<p class="text-red-400 text-xs mt-1">{{ newsletter_form_errors.email }}</p>{% endif %}
+            </div>
+            <div>
+              <input type="text" name="name" value="{{ newsletter_prefill.name|default:'' }}" placeholder="Name (optional)" autocomplete="name" maxlength="120" class="w-full rounded-lg border {% if newsletter_form_errors.name %}border-red-500/60{% else %}border-white/15{% endif %} bg-white/5 px-3 py-2 text-sm text-white placeholder-slate-500" />
+              {% if newsletter_form_errors.name %}<p class="text-red-400 text-xs mt-1">{{ newsletter_form_errors.name }}</p>{% endif %}
+            </div>
+            {% for nfield, nmsg in newsletter_form_errors.items %}
+            {% if nfield == "__all__" %}<p class="text-red-400 text-xs">{{ nmsg }}</p>{% endif %}
+            {% endfor %}
+            <button type="submit" class="w-full btn-gold py-2.5 rounded-lg text-sm">Subscribe</button>
+          </form>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-white font-600 text-sm mb-5">सेवाहरू</h4>
+        <ul class="space-y-3 text-sm text-slate-400">
+          {% for svc in services|slice:":5" %}
+          <li><a href="{% url 'home' %}#services" class="nep hover:text-yellow-400 transition-colors">{{ svc.title_nepali }}</a></li>
+          {% empty %}
+          <li class="text-slate-500">—</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-600 text-sm mb-5">Quick Links</h4>
+        <ul class="space-y-3 text-sm text-slate-400">
+          <li><a href="{% url 'blog:post_list' %}" class="hover:text-yellow-400 transition-colors">Blog</a></li>
+          {% for p in footer_pages %}
+          <li><a href="{{ p.get_absolute_url }}" class="hover:text-yellow-400 transition-colors">{{ p.title|truncatewords:6 }}</a></li>
+          {% endfor %}
+          <li><a href="{% url 'home' %}#about"        class="hover:text-yellow-400 transition-colors">About Us</a></li>
+          <li><a href="{% url 'home' %}#why"          class="hover:text-yellow-400 transition-colors">Why Choose Us</a></li>
+          <li><a href="{% url 'home' %}#process"      class="hover:text-yellow-400 transition-colors">Our Process</a></li>
+          <li><a href="{% url 'home' %}#testimonials" class="hover:text-yellow-400 transition-colors">Testimonials</a></li>
+          <li><a href="{% url 'home' %}#contact"      class="hover:text-yellow-400 transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-600 text-sm mb-5">Office Hours</h4>
+        <p class="text-slate-400 text-sm">{{ site.office_hours }}</p>
+        <div class="mt-6 p-4 rounded-xl bg-white/5 border border-white/10">
+          <p class="text-xs text-slate-400 mb-1">Emergency / WhatsApp</p>
+          <p class="text-emerald-400 font-700">{{ site.phone }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-slate-500 text-xs">© {% now "Y" %} {{ site.company_name }}. All rights reserved.</p>
+      <div class="flex gap-5 text-xs text-slate-500">
+        <a href="#" class="hover:text-yellow-400 transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-yellow-400 transition-colors">Terms</a>
+        <a href="{% url 'home' %}#contact" class="hover:text-yellow-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>

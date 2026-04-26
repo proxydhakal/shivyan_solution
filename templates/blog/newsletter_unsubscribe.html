@@ -1,0 +1,13 @@
+{% extends "base_public.html" %}
+{% block title %}Newsletter — {{ site.company_name }}{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto px-4 py-16 text-center">
+  <h1 class="text-2xl font-800 text-navy-950 mb-3">Newsletter</h1>
+  <p class="text-slate-600 text-sm">
+    If you changed your mind, you can subscribe again from the footer on our
+    <a href="{% url 'home' %}" class="text-blue-600 underline">home page</a>
+    or <a href="{% url 'blog:post_list' %}" class="text-blue-600 underline">blog</a>.
+  </p>
+  <a href="{% url 'home' %}" class="inline-block mt-8 btn-gold px-6 py-3 rounded-lg text-sm">Back to home</a>
+</div>
+{% endblock %}

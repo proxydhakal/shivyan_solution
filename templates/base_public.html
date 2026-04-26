@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ne" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{{ site.get_browser_title }}{% endblock %}</title>
+  <meta
+    name="description"
+    content="{% block meta_desc %}{{ site.meta_description|striptags|truncatewords:30 }}{% endblock %}"
+  />
+  {% include "partials/site_meta.html" %}
+  <meta
+    property="og:title"
+    content="{% block og_title %}{{ site.get_browser_title }}{% endblock %}"
+  />
+  <meta
+    property="og:description"
+    content="{% block og_desc %}{{ site.meta_description|striptags|truncatewords:40 }}{% endblock %}"
+  />
+  <meta
+    name="twitter:title"
+    content="{% block tw_title %}{{ site.get_browser_title }}{% endblock %}"
+  />
+  <meta
+    name="twitter:description"
+    content="{% block tw_desc %}{{ site.meta_description|striptags|truncatewords:40 }}{% endblock %}"
+  />
+  {% block social_share_image %}
+  <meta property="og:type" content="website" />
+  {% include "partials/og_image_default.html" %}
+  {% endblock %}
+  {% include "partials/site_layout_head.html" %}
+  {% block extra_head %}{% endblock %}
+</head>
+<body x-data="{scrolled:false,mobileOpen:false}" @scroll.window="scrolled=window.scrollY>60">
+
+{% if messages %}
+<div style="position:fixed;top:80px;right:20px;z-index:9999;max-width:360px">
+  {% for message in messages %}
+    <div class="msg-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% include "partials/site_navbar.html" %}
+
+<main class="min-h-screen pt-[68px]">
+  {% block content %}{% endblock %}
+</main>
+
+{% include "partials/site_footer.html" %}
+</body>
+</html>

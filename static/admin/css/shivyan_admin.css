@@ -1,0 +1,392 @@
+/* Shivyan admin theme — matches public site (navy #030b2e, gold #f59e0b) */
+
+/* Light theme (default) */
+html[data-theme="light"],
+:root {
+    --shivyan-navy: #0d1880;
+    --shivyan-navy-deep: #030b2e;
+    --shivyan-gold: #f59e0b;
+    --shivyan-gold-dark: #d97706;
+
+    --primary: #1a38f5;
+    --secondary: #1122b8;
+    --accent: #f59e0b;
+    --primary-fg: #fff;
+
+    --body-fg: #1e293b;
+    --body-bg: #f8fafc;
+    --body-quiet-color: #64748b;
+    --body-loud-color: #0f172a;
+
+    --header-color: #e0e7ff;
+    --header-branding-color: #fde68a;
+    --header-bg: linear-gradient(135deg, #030b2e 0%, #1122b8 55%, #0d1880 100%);
+    --header-link-color: #fff;
+
+    --breadcrumbs-fg: #c7d2fe;
+    --breadcrumbs-link-fg: #f8fafc;
+    --breadcrumbs-bg: #1e3a8a;
+
+    --link-fg: #1d4ed8;
+    --link-hover-color: #d97706;
+    --link-selected-fg: #1e40af;
+
+    --hairline-color: #e2e8f0;
+    --border-color: #cbd5e1;
+
+    --selected-bg: #eff6ff;
+    --selected-row: #fffbeb;
+    --darkened-bg: #f1f5f9;
+
+    --button-bg: #1122b8;
+    --button-hover-bg: #0d1880;
+    --default-button-bg: #d97706;
+    --default-button-hover-bg: #b45309;
+
+    --font-family-primary:
+        "Poppins",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        system-ui,
+        sans-serif;
+}
+
+/* Dark / auto dark — keep same brand */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --body-fg: #e2e8f0;
+        --body-bg: #0f172a;
+        --body-quiet-color: #94a3b8;
+        --body-loud-color: #f8fafc;
+        --breadcrumbs-fg: #a5b4fc;
+        --breadcrumbs-link-fg: #f1f5f9;
+        --breadcrumbs-bg: #1e3a8a;
+        --link-fg: #93c5fd;
+        --link-hover-color: #fbbf24;
+        --hairline-color: #334155;
+        --border-color: #475569;
+        --darkened-bg: #1e293b;
+        --selected-bg: #1e3a5f;
+        --selected-row: #422006;
+    }
+}
+
+html[data-theme="dark"] {
+    --body-fg: #e2e8f0;
+    --body-bg: #0f172a;
+    --body-quiet-color: #94a3b8;
+    --body-loud-color: #f8fafc;
+    --breadcrumbs-fg: #a5b4fc;
+    --breadcrumbs-link-fg: #f1f5f9;
+    --breadcrumbs-bg: #1e3a8a;
+    --link-fg: #93c5fd;
+    --link-hover-color: #fbbf24;
+    --hairline-color: #334155;
+    --border-color: #475569;
+    --darkened-bg: #1e293b;
+    --selected-bg: #1e3a5f;
+    --selected-row: #422006;
+}
+
+#header {
+    background: var(--header-bg);
+    color: var(--header-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#header a:link,
+#header a:visited,
+#branding h1,
+#branding h1 a:link,
+#branding h1 a:visited {
+    color: #fff;
+}
+
+#user-tools a:link,
+#user-tools a:active,
+#user-tools a:visited {
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+#user-tools a:focus,
+#user-tools a:hover {
+    color: #fde68a;
+}
+
+#branding h1#site-name {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.shivyan-admin-tagline {
+    margin: 0.15rem 0 0 0.5rem;
+    padding: 0;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(52, 211, 153, 0.95);
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: linear-gradient(90deg, #e0e7ff 0%, #f1f5f9 100%);
+    color: #0f172a;
+    border-color: #c7d2fe;
+    font-weight: 600;
+}
+
+html[data-theme="dark"] .module h2,
+html[data-theme="dark"] .module caption,
+html[data-theme="dark"] .inline-group h2 {
+    background: linear-gradient(90deg, #1e3a5f 0%, #1e293b 100%);
+    color: #e2e8f0;
+    border-color: #334155;
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button,
+button[type="submit"] {
+    background: var(--button-bg);
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.button.default,
+input[type="submit"].default,
+.submit-row input.default,
+.object-tools a.addlink,
+.object-tools a:link,
+.object-tools a:visited {
+    background: var(--default-button-bg);
+    color: #fff;
+}
+
+.object-tools a.addlink:hover,
+input[type="submit"].default:hover,
+.button.default:hover {
+    background: var(--default-button-hover-bg);
+    color: #fff;
+}
+
+.object-tools a:focus,
+.object-tools a:hover,
+.button:hover,
+input[type="submit"]:hover {
+    background: var(--button-hover-bg);
+    color: #fff;
+}
+
+/* ——— Login ——— */
+body.login {
+    min-height: 100vh;
+    background: #030b2e;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body.login::before,
+body.login::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.login::before {
+    width: 480px;
+    height: 480px;
+    top: -100px;
+    right: -80px;
+    background: radial-gradient(circle, rgba(17, 34, 184, 0.45), transparent 70%);
+}
+
+body.login::after {
+    width: 400px;
+    height: 400px;
+    bottom: -100px;
+    left: -60px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.15), transparent 70%);
+}
+
+.login #container {
+    position: relative;
+    z-index: 1;
+    max-width: 24rem;
+    width: 92%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+    margin-top: 6vh;
+    margin-bottom: 2rem;
+}
+
+.login #header {
+    background: transparent;
+    border: none;
+    padding: 1.5rem 1.25rem 0.5rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.login #branding h1#site-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.login #branding h1#site-name a {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.login .shivyan-admin-tagline {
+    display: block;
+    margin: 0.5rem 0 0 0;
+    text-align: center;
+    color: rgba(167, 243, 208, 0.95);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+}
+
+.login #content {
+    padding: 0.5rem 1.75rem 1.75rem;
+    color: #e2e8f0;
+}
+
+.login #content-main {
+    color: #e2e8f0;
+}
+
+.login .form-row label {
+    color: #cbd5e1;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.login .form-row #id_username,
+.login .form-row #id_password {
+    border-radius: 8px;
+    border: 1.5px solid #334155;
+    background: rgba(15, 23, 42, 0.9);
+    color: #f8fafc;
+}
+
+.login .form-row #id_username:focus,
+.login .form-row #id_password:focus {
+    border-color: #f59e0b;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.login .submit-row input {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #030b2e !important;
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+}
+
+.login .submit-row input:hover {
+    filter: brightness(1.05);
+    box-shadow: 0 6px 24px rgba(245, 158, 11, 0.45);
+}
+
+.login .errornote,
+.login p.errornote {
+    background: rgba(127, 29, 29, 0.45);
+    border: 1px solid rgba(252, 165, 165, 0.4);
+    color: #fecaca;
+    border-radius: 8px;
+}
+
+/* Brand row on login: logo + text */
+.shivyan-login-head {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.shivyan-login-mark {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #059669, #10b981);
+    margin-bottom: 0.75rem;
+    box-shadow: 0 8px 24px rgba(5, 150, 105, 0.35);
+}
+
+/* ——— Dashboard ——— */
+.shivyan-dashboard-hero {
+    position: relative;
+    margin: 0 0 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #030b2e 0%, #1e3a8a 50%, #0d1880 100%);
+    color: #e0e7ff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(8, 14, 82, 0.2);
+    overflow: hidden;
+}
+
+.shivyan-dashboard-hero::after {
+    content: "";
+    position: absolute;
+    right: -40px;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), transparent);
+    pointer-events: none;
+}
+
+.shivyan-dashboard-hero h2 {
+    margin: 0 0 0.35rem 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.shivyan-dashboard-hero p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #a5b4fc;
+    max-width: 40rem;
+    line-height: 1.45;
+}
+
+#content-main .app-core.module {
+    border-radius: 8px;
+}
+
+thead th {
+    font-weight: 600;
+}
+
+.submit-row a.deletelink {
+    background: #b91c1c;
+}
+
+/* Facets / filters in changelist: slightly clearer on brand background */
+#changelist-filter h2,
+#changelist-filter h3 {
+    font-weight: 600;
+}

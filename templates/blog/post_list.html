@@ -1,0 +1,75 @@
+{% extends "base_public.html" %}
+{% block title %}Blog — {{ site.company_name }}{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8 sm:px-6">
+  <h1 class="text-2xl sm:text-3xl font-800 text-navy-950 mb-2">Insights &amp; updates</h1>
+  <p class="text-slate-500 text-sm mb-8">Tax, business &amp; compliance in Nepal</p>
+
+  <form method="get" class="mb-8 flex flex-col sm:flex-row gap-3 sm:items-end" novalidate>
+    <div class="flex-1 max-w-md">
+      <label class="block text-xs font-600 text-slate-500 mb-1">Search</label>
+      <input type="search" name="q" value="{{ q }}" maxlength="200" placeholder="Type keywords…" autocorrect="off" spellcheck="false" class="w-full rounded-xl border {% if q_error %}border-red-300 ring-1 ring-red-200{% else %}border-slate-200{% endif %} px-4 py-2.5 text-sm" />
+      {% if q_error %}<p class="text-red-600 text-xs mt-1" role="alert">{{ q_error }}</p>{% endif %}
+    </div>
+    <div>
+      <label class="block text-xs font-600 text-slate-500 mb-1">Category</label>
+      <select name="category" class="rounded-xl border border-slate-200 px-3 py-2.5 text-sm min-w-[10rem]">
+        <option value="">All</option>
+        {% for c in categories %}
+        <option value="{{ c.slug }}" {% if active_category and active_category.slug == c.slug %}selected{% endif %}>{{ c.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs font-600 text-slate-500 mb-1">Tag</label>
+      <select name="tag" class="rounded-xl border border-slate-200 px-3 py-2.5 text-sm min-w-[10rem]">
+        <option value="">All</option>
+        {% for t in tags_for_sidebar %}
+        <option value="{{ t.slug }}" {% if active_tag and active_tag.slug == t.slug %}selected{% endif %}>{{ t.name }} ({{ t.c }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn-apply rounded-xl bg-navy-800 text-white px-5 py-2.5 text-sm font-600" style="background:#1122b8">Filter</button>
+  </form>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for post in posts %}
+    <article class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      {% if post.cover %}
+      <a href="{{ post.get_absolute_url }}"><img src="{{ post.cover.url }}" alt="" class="w-full h-40 object-cover" loading="lazy" /></a>
+      {% endif %}
+      <div class="p-5">
+        {% if post.category %}
+        <a href="?category={{ post.category.slug }}" class="text-xs font-600 text-blue-600 hover:underline">{{ post.category.name }}</a>
+        {% endif %}
+        <h2 class="mt-1 font-700 text-navy-950 text-lg leading-snug">
+          <a href="{{ post.get_absolute_url }}" class="hover:text-blue-600">{{ post.title }}</a>
+        </h2>
+        <p class="text-slate-500 text-sm mt-2 line-clamp-3">{{ post.excerpt|default:post.content|striptags|truncatewords:22 }}</p>
+        <p class="text-xs text-slate-400 mt-3">
+          {{ post.published_at|date:"M j, Y" }}
+          {% if post.ratings_avg %}
+          <span class="ml-2">★ {{ post.ratings_avg|floatformat:1 }}</span>
+          <span class="text-slate-300">({{ post.ratings_count }})</span>
+          {% endif %}
+        </p>
+      </div>
+    </article>
+    {% empty %}
+    <p class="text-slate-500 col-span-full">No posts match your filters.</p>
+    {% endfor %}
+  </div>
+
+  {% if posts.has_other_pages %}
+  <nav class="mt-10 flex flex-wrap justify-center gap-2 text-sm">
+    {% if posts.has_previous %}
+    <a class="px-3 py-1.5 rounded-lg border border-slate-200 hover:border-blue-300" href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}page={{ posts.previous_page_number }}">Previous</a>
+    {% endif %}
+    <span class="px-3 py-1.5 text-slate-500">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+    {% if posts.has_next %}
+    <a class="px-3 py-1.5 rounded-lg border border-slate-200 hover:border-blue-300" href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}page={{ posts.next_page_number }}">Next</a>
+    {% endif %}
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}
