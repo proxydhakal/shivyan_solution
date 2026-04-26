@@ -21,6 +21,38 @@ except ImportError:
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def _public_path_url(name: str, default: str) -> str:
+    """
+    Public URL for static/media (same-origin path or full CDN URL).
+    Ensures a trailing slash. Paths get a leading slash when not using https?://
+    """
+    raw = (config(name, default=default) or default).strip()
+    if not raw:
+        return default
+    if raw.startswith(('http://', 'https://', '//')):
+        return raw if raw.endswith('/') else f'{raw}/'
+    if not raw.startswith('/'):
+        raw = f'/{raw}'
+    if not raw.endswith('/'):
+        raw = f'{raw}/'
+    return raw
+
+
+def _content_dir(name: str, default_relative: str) -> Path:
+    """
+    On-disk path for staticfiles/ or user uploads. Empty env → BASE_DIR / default.
+    Relative values are under BASE_DIR; absolute paths are used as-is.
+    """
+    val = (config(name, default='') or '').strip()
+    if not val:
+        return (BASE_DIR / default_relative).resolve()
+    p = Path(val).expanduser()
+    if p.is_absolute():
+        return p
+    return (BASE_DIR / p).resolve()
+
+
 # -----------------------------------------------------------------------------
 # Core
 # -----------------------------------------------------------------------------
@@ -167,11 +199,12 @@ TIME_ZONE = 'Asia/Kathmandu'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Public URLs (e.g. /static/ or https://cdn.example.com/static/); see .env
+STATIC_URL = _public_path_url('STATIC_URL', '/static/')
+MEDIA_URL = _public_path_url('MEDIA_URL', '/media/')
+STATIC_ROOT = _content_dir('STATIC_ROOT', 'staticfiles')
+MEDIA_ROOT = _content_dir('MEDIA_ROOT', 'media')
 STATICFILES_DIRS = [BASE_DIR / 'static']
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STORAGES = {
