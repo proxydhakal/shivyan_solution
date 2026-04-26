@@ -197,7 +197,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kathmandu'
 USE_I18N = True
-USE_TZ = True
+USE_TZ = False
 
 # Public URLs (e.g. /static/ or https://cdn.example.com/static/); see .env
 STATIC_URL = _public_path_url('STATIC_URL', '/static/')
