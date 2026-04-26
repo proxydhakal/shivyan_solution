@@ -51,3 +51,6 @@ Thumbs.db
 
 # Cursor (optional; uncomment if you don’t want local settings in repo)
 # .cursor/
+passenger_wsgi.py
+temp/
+public/
