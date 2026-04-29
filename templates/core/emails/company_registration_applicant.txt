@@ -1,0 +1,12 @@
+We received your company registration application — {{ company }}
+
+Hi {{ app.full_name }},
+
+We have received your online company registration application for:
+  "{{ app.desired_company_name }}"
+
+Our team will review your details and contact you shortly.
+
+Thank you,
+{{ company }}
+

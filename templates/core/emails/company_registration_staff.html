@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: system-ui, sans-serif; line-height: 1.5; color: #0f172a;">
+  <h2 style="color:#1122b8;">Company registration application — {{ company }}</h2>
+  <p><strong>Application ID:</strong> #{{ app.pk }}</p>
+  <table cellpadding="8" style="border-collapse: collapse; max-width: 640px;">
+    <tr><td><strong>Applicant</strong></td><td>{{ app.full_name }}</td></tr>
+    <tr><td><strong>Email</strong></td><td>{{ app.email }}</td></tr>
+    <tr><td><strong>Phone</strong></td><td>{{ app.phone }}</td></tr>
+    <tr><td><strong>Desired company name</strong></td><td>{{ app.desired_company_name }}</td></tr>
+    <tr><td><strong>Company type</strong></td><td>{{ app.company_type|default:"—" }}</td></tr>
+    <tr><td><strong>Nature of business</strong></td><td>{{ app.business_nature|default:"—" }}</td></tr>
+    <tr><td><strong>Registered address</strong></td><td>{{ app.registered_address|default:"—" }}</td></tr>
+    <tr><td><strong>Kitta number</strong></td><td>{{ app.kitta_number|default:"—" }}</td></tr>
+  </table>
+  <p style="margin-top: 14px;"><strong>Notes</strong></p>
+  <p style="white-space: pre-wrap; background:#f8fafc; padding:12px; border-radius:8px;">{{ app.notes|default:"—" }}</p>
+</body>
+</html>
+

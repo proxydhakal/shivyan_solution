@@ -68,6 +68,7 @@
         <h4 class="text-white font-600 text-sm mb-5">Quick Links</h4>
         <ul class="space-y-3 text-sm text-slate-400">
           <li><a href="{% url 'blog:post_list' %}" class="hover:text-yellow-400 transition-colors">Blog</a></li>
+          <li><a href="{% url 'company_registration_apply' %}" class="hover:text-yellow-400 transition-colors">Company Registration</a></li>
           {% for p in footer_pages %}
           <li><a href="{{ p.get_absolute_url }}" class="hover:text-yellow-400 transition-colors">{{ p.title|truncatewords:6 }}</a></li>
           {% endfor %}

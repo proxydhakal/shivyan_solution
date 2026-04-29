@@ -1,6 +1,18 @@
 from django.contrib import admin
 from django.contrib.admin import DateFieldListFilter
-from .models import SiteSettings, Service, ServiceCategory, WhyChooseUs, ProcessStep, Testimonial, ContactInquiry
+from django.utils.html import format_html
+
+from .models import (
+    ApplicationDocument,
+    CompanyRegistrationApplication,
+    ContactInquiry,
+    ProcessStep,
+    Service,
+    ServiceCategory,
+    SiteSettings,
+    Testimonial,
+    WhyChooseUs,
+)
 
 
 @admin.register(SiteSettings)
@@ -141,13 +153,61 @@ class ContactInquiryAdmin(admin.ModelAdmin):
         ('updated_at', DateFieldListFilter),
     ]
     search_fields = ['name', 'phone', 'email', 'message', 'service']
-    list_editable = ['status']
-    readonly_fields = ['name','email','phone','service','message','ip_address','created_at','updated_at']
-    date_hierarchy = 'created_at'
-    ordering = ['-created_at']
 
-    def has_add_permission(self, request):
-        return False
+
+class ApplicationDocumentInline(admin.TabularInline):
+    model = ApplicationDocument
+    extra = 0
+    fields = ['doc_type', 'label', 'file', 'preview', 'uploaded_at']
+    readonly_fields = ['preview', 'uploaded_at']
+
+    def preview(self, obj: ApplicationDocument) -> str:
+        if not obj.file:
+            return '—'
+        url = obj.file.url
+        name = (obj.original_name or obj.file.name or '').lower()
+        if name.endswith(('.jpg', '.jpeg', '.png', '.webp', '.gif')):
+            return format_html(
+                '<a href="{}" target="_blank" rel="noopener noreferrer">'
+                '<img src="{}" style="max-height:64px;border-radius:8px;"/></a>',
+                url,
+                url,
+            )
+        return format_html(
+            '<a href="{}" target="_blank" rel="noopener noreferrer">Open</a>',
+            url,
+        )
+
+    preview.short_description = 'Preview'
+
+
+@admin.register(CompanyRegistrationApplication)
+class CompanyRegistrationApplicationAdmin(admin.ModelAdmin):
+    list_display = ['id', 'desired_company_name', 'full_name', 'phone', 'email', 'status', 'created_at']
+    list_filter = ['status', ('created_at', DateFieldListFilter)]
+    search_fields = ['full_name', 'email', 'phone', 'desired_company_name', 'kitta_number']
+    readonly_fields = ['ip_address', 'created_at', 'updated_at']
+    inlines = [ApplicationDocumentInline]
+    fieldsets = (
+        ('Applicant', {'fields': ('full_name', 'email', 'phone')}),
+        (
+            'Company details',
+            {
+                'fields': (
+                    'desired_company_name',
+                    'company_type',
+                    'business_nature',
+                    'registered_address',
+                    'kitta_number',
+                    'notes',
+                )
+            },
+        ),
+        ('Workflow', {'fields': ('status', 'admin_notes')}),
+        ('Metadata', {'fields': ('ip_address', 'created_at', 'updated_at')}),
+    )
+    list_editable = ['status']
+    ordering = ['-created_at']
 
 
 admin.site.site_header = 'Shivyan Solutions'

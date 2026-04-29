@@ -1,0 +1,124 @@
+{% extends "base_public.html" %}
+{% block title %}Company Registration Application — {{ site.company_name }}{% endblock %}
+{% block content %}
+<section class="relative overflow-hidden" style="background:#030b2e;">
+  <div class="hero-grid"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+    <div class="max-w-3xl">
+      <p class="text-blue-300 text-xs font-700 tracking-widest uppercase mb-3">Online application</p>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-800 text-white leading-tight mb-3">
+        Online Company Registration Application
+      </h1>
+      <p class="text-blue-200 text-sm sm:text-base max-w-2xl">
+        Fill in the required details and upload supporting documents. Each file must be under 1 MB (JPG/JPEG/PNG/PDF).
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+  <form method="post" enctype="multipart/form-data" class="space-y-8 bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-sm" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="msg-error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div>
+      <h2 class="font-800 text-navy-950 text-lg mb-4">Applicant details</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-1">Full name *</label>
+        {{ form.full_name }}
+        {% if form.full_name.errors %}<p class="text-red-600 text-xs mt-1">{{ form.full_name.errors.0 }}</p>{% endif %}
+      </div>
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-1">Email *</label>
+        {{ form.email }}
+        {% if form.email.errors %}<p class="text-red-600 text-xs mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+      </div>
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-1">Phone *</label>
+        {{ form.phone }}
+        {% if form.phone.errors %}<p class="text-red-600 text-xs mt-1">{{ form.phone.errors.0 }}</p>{% endif %}
+      </div>
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-1">Desired company name *</label>
+        {{ form.desired_company_name }}
+        {% if form.desired_company_name.errors %}<p class="text-red-600 text-xs mt-1">{{ form.desired_company_name.errors.0 }}</p>{% endif %}
+      </div>
+    </div>
+    </div>
+
+    <div>
+      <h2 class="font-800 text-navy-950 text-lg mb-4">Company details</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-1">Company type</label>
+        {{ form.company_type }}
+      </div>
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-1">Nature of business</label>
+        {{ form.business_nature }}
+      </div>
+      <div class="sm:col-span-2">
+        <label class="block text-sm font-600 text-slate-700 mb-1">Registered address</label>
+        {{ form.registered_address }}
+      </div>
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-1">Property kitta number</label>
+        {{ form.kitta_number }}
+      </div>
+    </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-600 text-slate-700 mb-1">Notes</label>
+      {{ form.notes }}
+    </div>
+
+    <div class="border-t pt-5 space-y-5">
+      <div>
+        <h2 class="font-800 text-navy-950 text-lg mb-1">Documents</h2>
+        <p class="text-xs text-slate-500">Unlimited files per section. Each file must be &lt; 1MB.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-5">
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-2">Electricity bill (upload one or more)</label>
+        <input type="file" name="electricity_bill_files" multiple accept=".jpg,.jpeg,.png,.pdf" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-slate-50" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-2">Property Lalpurja (upload one or more)</label>
+        <input type="file" name="lalpurja_files" multiple accept=".jpg,.jpeg,.png,.pdf" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-slate-50" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-2">Citizenship (upload one or more)</label>
+        <input type="file" name="citizenship_files" multiple accept=".jpg,.jpeg,.png,.pdf" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-slate-50" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-2">Applicant photo (upload one or more)</label>
+        <input type="file" name="photo_files" multiple accept=".jpg,.jpeg,.png,.pdf" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-slate-50" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-2">Signature (upload one or more)</label>
+        <input type="file" name="signature_files" multiple accept=".jpg,.jpeg,.png,.pdf" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-slate-50" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-600 text-slate-700 mb-2">Other documents (optional)</label>
+        <input type="text" name="other_label" placeholder="Label (optional) e.g. PAN, photo, signature…" class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm mb-2" />
+        <input type="file" name="other_files" multiple accept=".jpg,.jpeg,.png,.pdf" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm bg-slate-50" />
+      </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-gold px-6 py-3 rounded-xl text-sm w-full">Submit application</button>
+  </form>
+</div>
+{% endblock %}
+

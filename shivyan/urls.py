@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('', views.home, name='home'),
     path('contact/submit/', views.contact_ajax, name='contact_ajax'),
+    path('apply/company-registration/', views.company_registration_apply, name='company_registration_apply'),
 ]
 
 if settings.DEBUG:

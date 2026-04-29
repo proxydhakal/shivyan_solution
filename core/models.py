@@ -1,4 +1,6 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils import timezone
 
 
 class SiteSettings(models.Model):
@@ -205,3 +207,74 @@ class ContactInquiry(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
+
+
+class CompanyRegistrationApplication(models.Model):
+    class Status(models.TextChoices):
+        NEW = 'new', 'New'
+        IN_REVIEW = 'in_review', 'In review'
+        DOCS_MISSING = 'docs_missing', 'Docs missing'
+        PROCESSED = 'processed', 'Processed'
+        REJECTED = 'rejected', 'Rejected'
+
+    # Applicant
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=30)
+
+    # Desired company details
+    desired_company_name = models.CharField(max_length=220)
+    company_type = models.CharField(max_length=120, blank=True)
+    business_nature = models.CharField(max_length=180, blank=True)
+    registered_address = models.CharField(max_length=255, blank=True)
+    kitta_number = models.CharField(max_length=80, blank=True, help_text='Property kitta number (if applicable)')
+    notes = models.TextField(blank=True)
+
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.NEW, db_index=True)
+    admin_notes = models.TextField(blank=True)
+
+    ip_address = models.GenericIPAddressField(null=True, blank=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'company registration application'
+        verbose_name_plural = 'company registration applications'
+
+    def __str__(self) -> str:
+        return f'{self.desired_company_name} — {self.full_name}'
+
+
+class ApplicationDocument(models.Model):
+    class DocType(models.TextChoices):
+        ELECTRICITY_BILL = 'electricity_bill', 'Electricity bill'
+        LALPURJA = 'lalpurja', 'Property Lalpurja'
+        CITIZENSHIP = 'citizenship', 'Citizenship'
+        PHOTO = 'photo', 'Photo'
+        SIGNATURE = 'signature', 'Signature'
+        OTHER = 'other', 'Other'
+
+    application = models.ForeignKey(
+        CompanyRegistrationApplication,
+        on_delete=models.CASCADE,
+        related_name='documents',
+    )
+    doc_type = models.CharField(max_length=32, choices=DocType.choices, db_index=True)
+    label = models.CharField(max_length=160, blank=True, help_text='Optional label for “Other” documents')
+    file = models.FileField(
+        upload_to='applications/company_registration/%Y/%m',
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'pdf'])],
+    )
+    original_name = models.CharField(max_length=255, blank=True)
+    content_type = models.CharField(max_length=120, blank=True)
+    size_bytes = models.PositiveIntegerField(default=0)
+    uploaded_at = models.DateTimeField(default=timezone.now, db_index=True)
+
+    class Meta:
+        ordering = ['doc_type', 'uploaded_at', 'id']
+        verbose_name = 'application document'
+        verbose_name_plural = 'application documents'
+
+    def __str__(self) -> str:
+        return f'{self.doc_type} — {self.original_name or self.file.name}'

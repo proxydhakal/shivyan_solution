@@ -11,6 +11,7 @@
       <a href="{% url 'home' %}#process" class="hover:text-yellow-400 transition-colors">Process</a>
       <a href="{% url 'home' %}#testimonials" class="hover:text-yellow-400 transition-colors">Testimonials</a>
       <a href="{% url 'blog:post_list' %}" class="hover:text-yellow-400 transition-colors font-600">Blog</a>
+      <a href="{% url 'company_registration_apply' %}" class="hover:text-yellow-400 transition-colors">Company Registration</a>
       {% for p in header_pages %}
       <a href="{{ p.get_absolute_url }}" class="hover:text-yellow-400 transition-colors">{{ p.title|truncatewords:3 }}</a>
       {% endfor %}

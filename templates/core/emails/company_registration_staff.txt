@@ -1,0 +1,16 @@
+Company registration application — {{ company }}
+
+Application ID: #{{ app.pk }}
+Applicant: {{ app.full_name }}
+Email: {{ app.email }}
+Phone: {{ app.phone }}
+
+Desired company name: {{ app.desired_company_name }}
+Company type: {{ app.company_type|default:"—" }}
+Nature of business: {{ app.business_nature|default:"—" }}
+Registered address: {{ app.registered_address|default:"—" }}
+Kitta number: {{ app.kitta_number|default:"—" }}
+
+Notes:
+{{ app.notes|default:"—" }}
+
