@@ -197,7 +197,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kathmandu'
 USE_I18N = True
-USE_TZ = False
+USE_TZ = config('USE_TZ', default=True, cast=bool)
 
 # Public URLs (e.g. /static/ or https://cdn.example.com/static/); see .env
 STATIC_URL = _public_path_url('STATIC_URL', '/static/')
@@ -310,6 +310,9 @@ LOGGING = {
     },
     'loggers': {
         'django': {'level': LOG_LEVEL, 'propagate': True},
+        # Prevent dev-server "hang" due to excessive autoreload/template debug logs
+        'django.utils.autoreload': {'level': 'WARNING', 'propagate': False},
+        'django.template': {'level': 'WARNING', 'propagate': False},
         'core': {'level': LOG_LEVEL, 'propagate': True},
         'blog': {'level': LOG_LEVEL, 'propagate': True},
     },
