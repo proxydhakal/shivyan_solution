@@ -23,7 +23,7 @@ from .models import (
     NewsletterSubscriber,
     PostRating,
 )
-from .newsletter_mail import send_welcome_email
+from .newsletter_mail import send_new_subscriber_staff_email, send_welcome_email
 from .utils import get_client_ip, make_voter_key
 
 logger = logging.getLogger(__name__)
@@ -216,6 +216,8 @@ def newsletter_subscribe(request):
         if getattr(settings, 'NEWSLETTER_SEND_WELCOME_EMAIL', True):
             if not send_welcome_email(sub):
                 logger.warning('Newsletter welcome email not delivered for %s', sub.email)
+        if not send_new_subscriber_staff_email(sub):
+            logger.warning('Newsletter staff notification not delivered for %s', sub.email)
         messages.success(
             request,
             'You are subscribed! You will get an email when we publish a new blog post.',

@@ -127,6 +127,41 @@ def send_welcome_email(sub: NewsletterSubscriber) -> bool:
     )
 
 
+def send_new_subscriber_staff_email(sub: NewsletterSubscriber) -> bool:
+    """
+    Notify staff/business inbox that a new subscriber joined.
+    """
+    inbox = (getattr(settings, 'NEWSLETTER_INBOX_EMAIL', None) or '').strip()
+    if not inbox:
+        return False
+    company = _company_name()
+    base = _public_base_url()
+    post_list_path = reverse('blog:post_list')
+    ctx = {
+        'company': company,
+        'subscriber': sub,
+        'post_list_url': f'{base}{post_list_path}',
+    }
+    subject = f'[Website] New newsletter subscriber — {sub.email}'
+    text = render_to_string('blog/emails/new_subscriber_staff.txt', ctx)
+    html = render_to_string('blog/emails/new_subscriber_staff.html', ctx)
+    try:
+        msg = EmailMultiAlternatives(
+            subject=subject,
+            body=text,
+            from_email=_newsletter_from_email(),
+            to=[inbox],
+        )
+        msg.attach_alternative(html, 'text/html')
+        msg.send(fail_silently=False)
+        return True
+    except (SMTPException, OSError) as e:
+        logger.exception('Newsletter: staff notify failed: %s', e)
+    except Exception:  # noqa: BLE001
+        logger.exception('Newsletter: staff notify failed (unexpected)')
+    return False
+
+
 def send_new_post_to_subscribers(post: BlogPost) -> int:
     """
     Send one message per active subscriber (unique unsubscribe link per address).

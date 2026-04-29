@@ -248,6 +248,8 @@ NEWSLETTER_BASE_URL = config('NEWSLETTER_BASE_URL', default='').rstrip('/')
 NEWSLETTER_FROM_NAME = config('NEWSLETTER_FROM_NAME', default='').strip()
 # Optional: inbox for replies to newsletter messages (e.g. contact@yoursite.com)
 NEWSLETTER_REPLY_TO = config('NEWSLETTER_REPLY_TO', default='').strip()
+# Where “new subscriber” notifications go (defaults to CONTACT_INBOX_EMAIL)
+NEWSLETTER_INBOX_EMAIL = config('NEWSLETTER_INBOX_EMAIL', default=CONTACT_INBOX_EMAIL).strip()
 # Send a one-time “you’re subscribed” message when someone joins the list
 NEWSLETTER_SEND_WELCOME_EMAIL = config('NEWSLETTER_SEND_WELCOME_EMAIL', default=True, cast=bool)
 

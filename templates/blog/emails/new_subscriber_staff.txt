@@ -1,0 +1,7 @@
+New newsletter subscriber — {{ company }}
+
+Email: {{ subscriber.email }}
+Name: {{ subscriber.name|default:"—" }}
+
+Blog: {{ post_list_url }}
+

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: system-ui, sans-serif; line-height: 1.5; color: #0f172a;">
+  <h2 style="color: #1122b8;">New newsletter subscriber — {{ company }}</h2>
+  <table cellpadding="8" style="border-collapse: collapse; max-width: 560px;">
+    <tr><td><strong>Email</strong></td><td>{{ subscriber.email }}</td></tr>
+    <tr><td><strong>Name</strong></td><td>{{ subscriber.name|default:"—" }}</td></tr>
+  </table>
+  <p style="margin-top: 16px;">
+    <a href="{{ post_list_url }}" style="color:#1122b8;">Open blog</a>
+  </p>
+</body>
+</html>
+
