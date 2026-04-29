@@ -40,10 +40,16 @@ def send_contact_inquiry_emails(inquiry: ContactInquiry) -> dict:
 def _send_staff_email(inquiry: ContactInquiry, to_email: str) -> bool:
     company = _company_name()
     subject = f'[Website] New contact: {inquiry.name} (#{inquiry.pk})'
+    received = None
+    if inquiry.created_at:
+        dt = inquiry.created_at
+        if timezone.is_naive(dt):
+            dt = timezone.make_aware(dt, timezone.get_current_timezone())
+        received = timezone.localtime(dt)
     ctx = {
         'inquiry': inquiry,
         'company': company,
-        'received': timezone.localtime(inquiry.created_at) if inquiry.created_at else None,
+        'received': received,
     }
     text_body = render_to_string('core/emails/staff_inquiry.txt', ctx)
     html_body = render_to_string('core/emails/staff_inquiry.html', ctx)

@@ -1,11 +1,14 @@
 from .models import Service, SiteSettings
+from .whatsapp_url import build_whatsapp_wa_url
 
 
 def site_settings(request):
     """Inject site-wide data for layout (navbar, footer) on all pages."""
+    site = SiteSettings.get()
     return {
-        'site': SiteSettings.get(),
+        'site': site,
         'services': Service.objects.filter(is_active=True),
+        'whatsapp_chat_url': build_whatsapp_wa_url(getattr(site, 'phone', None)),
     }
 
 
