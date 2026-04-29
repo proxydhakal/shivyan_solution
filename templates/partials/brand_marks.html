@@ -7,15 +7,20 @@
   href="{% url 'home' %}"
   class="{% if mode == 'nav' %}flex items-center min-w-0 flex-shrink-0{% else %}inline-flex items-center mb-4{% endif %}"
 >
-  <img
-    src="{{ site.logo.url }}"
-    alt="{{ site.company_name }}"
-    class="{% if mode == 'nav' %}h-12 w-auto max-h-12 max-w-[260px] object-contain object-left md:max-w-[320px]{% else %}h-12 w-auto max-w-[320px] object-contain object-left{% endif %}"
-    width="240"
-    height="40"
-    loading="eager"
-    decoding="async"
-  />
+  <span
+    class="bg-white rounded-2xl border border-white/10 shadow-sm overflow-hidden flex items-center justify-center {% if mode == 'nav' %}p-2{% else %}p-2.5{% endif %}"
+    aria-hidden="true"
+  >
+    <img
+      src="{{ site.logo.url }}"
+      alt="{{ site.company_name }}"
+      class="{% if mode == 'nav' %}h-11 w-auto max-h-11 max-w-[300px] object-contain{% else %}h-12 w-auto max-w-[340px] object-contain{% endif %}"
+      width="320"
+      height="80"
+      loading="eager"
+      decoding="async"
+    />
+  </span>
 </a>
 {% else %}
 {# Static fallback logo (deploy with static/images/logo.png) #}
@@ -23,14 +28,19 @@
   href="{% url 'home' %}"
   class="{% if mode == 'nav' %}flex items-center min-w-0 flex-shrink-0{% else %}inline-flex items-center mb-4{% endif %}"
 >
-  <img
-    src="{% static 'images/logo.png' %}"
-    alt="{{ site.company_name }}"
-    class="{% if mode == 'nav' %}h-12 w-auto max-h-12 max-w-[260px] object-contain object-left md:max-w-[320px]{% else %}h-12 w-auto max-w-[320px] object-contain object-left{% endif %}"
-    width="320"
-    height="80"
-    loading="eager"
-    decoding="async"
-  />
+  <span
+    class="bg-white rounded-2xl border border-white/10 shadow-sm overflow-hidden flex items-center justify-center {% if mode == 'nav' %}p-2{% else %}p-2.5{% endif %}"
+    aria-hidden="true"
+  >
+    <img
+      src="{% static 'images/logo.png' %}"
+      alt="{{ site.company_name }}"
+      class="{% if mode == 'nav' %}h-11 w-auto max-h-11 max-w-[300px] object-contain{% else %}h-12 w-auto max-w-[340px] object-contain{% endif %}"
+      width="320"
+      height="80"
+      loading="eager"
+      decoding="async"
+    />
+  </span>
 </a>
 {% endif %}
